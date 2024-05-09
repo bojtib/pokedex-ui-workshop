@@ -26,12 +26,12 @@ export default function PokemonPage({ params }: Params) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const resp = await fetch('/pokemons.json');
-            // Creating a Map out of the raw json
-            const pokemons: Map<string, Pokemon> = new Map(Object.entries(await resp.json()));
-            const currentPokemon = pokemons.get(pokemon_id);
-            setPokemon(currentPokemon);
-            console.log(currentPokemon);
+            const resp = await fetch('/api/pokemon/' + pokemon_id);
+            if (resp.ok) {
+                const pokemon: Pokemon = await resp.json();
+                console.log(pokemon);
+                setPokemon(pokemon);
+            }
             setPokemonLoaded(true);
         };
 
@@ -39,6 +39,7 @@ export default function PokemonPage({ params }: Params) {
             // Making sure to log errors on the console
             .catch(error => {
                 console.error(error);
+                setPokemonLoaded(true);
             });
     }, []);
 

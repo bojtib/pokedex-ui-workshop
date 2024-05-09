@@ -1,28 +1,53 @@
+'use client'
 import PokemonsComp from "@/components/pokemonsComp";
 import PokeNavBar from "@/components/pokeNavBarComp";
 import PokemonCard from "@/model/pokemonCard";
+import { useEffect, useState } from "react";
+import { Container, Row, Spinner } from "react-bootstrap";
 
 export default function Home() {
 
-  const testData: PokemonCard[] = [{
-    pokemonNumber: 2,
-    pokemonName: "Ivysaur",
-    pokemonType: ["Grass", "Poison"],
-    mainImage: "https://pokemon-aub-awe-workshop.s3.eu-west-2.amazonaws.com/2/mainImage.png"
-  },
-  {
-    pokemonNumber: 7,
-    pokemonName: "Squirtle",
-    pokemonType: ["Water"],
-    mainImage: "https://pokemon-aub-awe-workshop.s3.eu-west-2.amazonaws.com/7/mainImage.png"
-  },
-];
+  const [pokemons, setPokemons] = useState<PokemonCard[]>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const resp = await fetch('/api/pokemon');
+      if (resp.ok) {
+        const pokemons: PokemonCard[] = (await resp.json()).map((p: any) => {
+          return {
+            pokemonName: p.pokemonName.s,
+            pokemonNumber: p.pokemonNumber.n,
+            pokemonType: p.pokemonType.l.map((t: any) => t.s),
+            mainImage: p.mainImage.s
+          }
+        });
+        console.log(pokemons);
+        setPokemons(pokemons);
+      }
+    };
+
+    fetchData()
+      // Making sure to log errors on the console
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
 
 
   return (
     <>
       <PokeNavBar></PokeNavBar>
-      <PokemonsComp pokemons={testData}></PokemonsComp>
+      {pokemons ?
+        <PokemonsComp pokemons={pokemons}></PokemonsComp> :
+        <Container>
+          <Row className="justify-content-md-center p-2">
+            <Spinner className='p-2' animation='border' role='status' />
+          </Row>
+          <Row className="justify-content-md-center p-2">
+            Loading Pokémons...
+          </Row>
+        </Container>
+      }
     </>
   );
 }

@@ -2,6 +2,7 @@
 
 import PokemonCard from "@/model/pokemonCard";
 import { Card } from "react-bootstrap";
+import PokemonTypeBadgeComp from "./pokemonTypeBadgeComp";
 
 interface PokemonCardCompProps {
     pokemon: PokemonCard;
@@ -18,7 +19,7 @@ export default function PokemonCardComp(props: PokemonCardCompProps) {
                 <Card.Body>
                     <Card.Title>{props.pokemon.pokemonName}</Card.Title>
                     <Card.Text>
-                        {props.pokemon.pokemonType}
+                        <PokemonTypeBadgeComp pokemonTypes={props.pokemon.pokemonType} />
                     </Card.Text>
                 </Card.Body>
             </Card>
