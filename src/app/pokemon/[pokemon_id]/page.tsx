@@ -3,7 +3,9 @@
 'use client'
 import Pokemon from '@/model/pokemon';
 import { useEffect, useState } from 'react';
-import { Row, Col, Container, Image } from 'react-bootstrap';
+import { Container, Image, Spinner, Row } from 'react-bootstrap';
+import PokemonComponent from './pokemon';
+import PokeNavBar from '@/components/pokeNavBarComp'
 
 // This type is used to get the pokemon id from the url path
 type Params = {
@@ -20,6 +22,7 @@ export default function PokemonPage({ params }: Params) {
     //pokemon - A constant state variable which stores the pokemon information and retains the data between renders.
     //setPokemon - A state setter function to update the variable and trigger React to render the component again.
     const [pokemon, setPokemon] = useState<Pokemon>();
+    const [isPokemonLoaded, setPokemonLoaded] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -29,6 +32,7 @@ export default function PokemonPage({ params }: Params) {
             const currentPokemon = pokemons.get(pokemon_id);
             setPokemon(currentPokemon);
             console.log(currentPokemon);
+            setPokemonLoaded(true);
         };
 
         fetchData()
@@ -39,18 +43,23 @@ export default function PokemonPage({ params }: Params) {
     }, []);
 
     return (
-        <Container>
-            <Row className="justify-content-md-center">
-                <Col md="auto"><h1>{pokemon?.pokemonName}</h1></Col>
-            </Row>
-            <Row>
-                <Col >
-                    <Image src={pokemon?.mainImage} thumbnail />
-                </Col>
-                <Col>
-                    Pokémon Properties
-                </Col>
-            </Row>
-        </Container>
+        <>
+            <PokeNavBar></PokeNavBar>
+            {
+                isPokemonLoaded ?
+                    pokemon ?
+                        <PokemonComponent pokemon={pokemon}></PokemonComponent> :
+                        <Image className='img-fluid mx-auto d-block rounded'
+                            src="https://cdn.dribbble.com/users/2805817/screenshots/13206178/media/6bd36939f8a01d4480cb1e08147e20f3.png" /> :
+                    <Container>
+                        <Row className="justify-content-md-center p-2">
+                            <Spinner className='p-2' animation='border' role='status' />
+                        </Row>
+                        <Row className="justify-content-md-center p-2">
+                            Loading Pokémon...
+                        </Row>
+                    </Container>
+            }
+        </>
     );
 }
