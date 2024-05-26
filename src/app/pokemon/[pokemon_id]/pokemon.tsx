@@ -52,7 +52,7 @@ export default function PokemonComponent(props: Props) {
                         <Card className="p-0">
                             <Card.Header>Pokemon type</Card.Header>
                             <ListGroup variant="flush">
-                                {pokemon.pokemonType.map(type => <ListGroup.Item>{type}</ListGroup.Item>)}
+                                {pokemon.pokemonType.map(type => <ListGroup.Item key={pokemon.pokemonNumber}>{type}</ListGroup.Item>)}
                             </ListGroup>
                         </Card>
                     </Row>
@@ -60,7 +60,7 @@ export default function PokemonComponent(props: Props) {
                         <Card className="p-0">
                             <Card.Header>Evaluation family</Card.Header>
                             <ListGroup variant="flush">
-                                {pokemon.evolutionFamily.map(evolution => <ListGroup.Item>{evolution} {getFamilyTag(pokemon, evolution)}</ListGroup.Item>)}
+                                {pokemon.evolutionFamily.map(evolution => <ListGroup.Item key={pokemon.pokemonNumber}>{evolution} {getFamilyTag(pokemon, evolution)}</ListGroup.Item>)}
                             </ListGroup>
                         </Card>
                     </Row>
