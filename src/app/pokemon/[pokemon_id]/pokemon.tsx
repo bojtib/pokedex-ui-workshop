@@ -30,28 +30,34 @@ export default function PokemonComponent(props: Props) {
                 <Col>
                     <Image src={pokemon.mainImage} thumbnail /></Col>
                 <Col>
-                    <Row>
-                        Speed: <ProgressBar variant="info" now={pokemon.speed} label={pokemon.speed} />
+                    <Row className="m-2">
+                        <Row>
+                            <Col xs={3}>Speed:</Col>
+                            <Col><ProgressBar variant="info" now={pokemon.speed} label={pokemon.speed} /></Col>
+                        </Row>
+                        <Row>
+                            <Col xs={3}>Health points: </Col>
+                            <Col><ProgressBar variant="danger" now={pokemon.healthPoints} label={pokemon.healthPoints} /></Col>
+                        </Row>
+                        <Row>
+                            <Col xs={3}>Attack: </Col>
+                            <Col><ProgressBar variant="warning" now={pokemon.attack} label={pokemon.attack} /></Col>
+                        </Row>
+                        <Row>
+                            <Col xs={3}>Defense: </Col>
+                            <Col><ProgressBar variant="success" now={pokemon.defense} label={pokemon.defense} /></Col>
+                        </Row>
                     </Row>
-                    <Row>
-                        Health points: <ProgressBar variant="danger" now={pokemon.healthPoints} label={pokemon.healthPoints} />
-                    </Row>
-                    <Row>
-                        Attack: <ProgressBar variant="warning" now={pokemon.attack} label={pokemon.attack} />
-                    </Row>
-                    <Row>
-                        Defense: <ProgressBar variant="success" now={pokemon.defense} label={pokemon.defense} />
-                    </Row>
-                    <Row className="p-2">
-                        <Card>
+                    <Row className="m-2">
+                        <Card className="p-0">
                             <Card.Header>Pokemon type</Card.Header>
                             <ListGroup variant="flush">
                                 {pokemon.pokemonType.map(type => <ListGroup.Item>{type}</ListGroup.Item>)}
                             </ListGroup>
                         </Card>
                     </Row>
-                    <Row className="p-2">
-                        <Card>
+                    <Row className="m-2">
+                        <Card className="p-0">
                             <Card.Header>Evaluation family</Card.Header>
                             <ListGroup variant="flush">
                                 {pokemon.evolutionFamily.map(evolution => <ListGroup.Item>{evolution} {getFamilyTag(pokemon, evolution)}</ListGroup.Item>)}
