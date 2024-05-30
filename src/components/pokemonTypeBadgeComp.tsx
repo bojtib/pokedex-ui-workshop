@@ -9,7 +9,7 @@ interface PokemonCardCompProps {
 export default function PokemonTypeBadgeComp(props: PokemonCardCompProps) {
     return (
         <>
-            {props.pokemonTypes.map((pokemonType, index) => {
+            {props.pokemonTypes?.map((pokemonType, index) => {
                 if (pokemonType === "Water") {
                     return <Badge key={index} bg="primary">{pokemonType}</Badge>
                 } else if (pokemonType === "Fire") {
